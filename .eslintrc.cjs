@@ -20,5 +20,38 @@ module.exports = {
 		sourceType: 'module',
 	},
 	rules: {
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+			  "selector": "variable",
+			  "format": [
+				"camelCase",
+				"PascalCase",
+				"UPPER_CASE",
+				"StrictPascalCase",
+				"strictCamelCase"
+			  ]
+			},
+			{
+			  "selector": "function",
+			  "format": [
+				"camelCase",
+				"PascalCase",
+				"UPPER_CASE",
+				"StrictPascalCase",
+				"strictCamelCase"
+			  ]
+			},
+			{
+			  "selector": "typeLike",
+			  "format": [
+				"camelCase",
+				"PascalCase",
+				"UPPER_CASE",
+				"StrictPascalCase",
+				"strictCamelCase"
+			  ]
+			}
+		  ]
 	},
 };
