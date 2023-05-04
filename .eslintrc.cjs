@@ -20,6 +20,7 @@ module.exports = {
 		sourceType: 'module',
 	},
 	rules: {
+		"new-cap": ["error", { "capIsNew": false }],
 		"@typescript-eslint/naming-convention": [
 			"error",
 			{
