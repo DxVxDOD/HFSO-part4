@@ -29,7 +29,19 @@ blogRouter.get('/:id', (request, response, next) => {
 });
 
 blogRouter.post('/', (request, response) => {
-	const blog = new Blog(request.body);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const {body}: {body: BlogType} = request;
+
+	const blog = new Blog({
+		title: body.title,
+		author: body.author,
+		url: body.url,
+		likes: body.likes,
+	});
+
+	if (body === undefined) {
+		return response.status(400).json({error: 'content is missing'});
+	}
 
 	blog.save()
 		.then(result => {
