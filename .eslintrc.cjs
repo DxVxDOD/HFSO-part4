@@ -1,7 +1,13 @@
 module.exports = {
+	settings: {
+		jest: {
+		  version: require('jest/package.json').version,
+		},
+	  },
 	env: {
 		browser: true,
 		es2021: true,
+		jest: true
 	},
 	extends: 'xo',
 	overrides: [
@@ -12,7 +18,9 @@ module.exports = {
 			files: [
 				'*.ts',
 				'*.tsx',
+				'tests/*.ts'
 			],
+			env: {'jest': true, 'node': true} 
 		},
 	],
 	parserOptions: {
