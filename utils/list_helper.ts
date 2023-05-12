@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 import type BlogType from '../types/blogType.type.js';
+import type ModeMapType from '../types/modeMap.type.js';
 
 const dummy = (blog: BlogType[]) => 1;
 
@@ -14,6 +16,32 @@ const favourtieBlog = (blogs: BlogType[]) => {
 	const likesArray = blogs.map((blog: BlogType) => blog.likes);
 	const favouriteBlog = blogs.find((blog: BlogType) => blog.likes === Math.max(...likesArray));
 	return favouriteBlog;
+};
+
+const mostBlogs = (array: string[]) => {
+	if (!array.length) {
+		return null;
+	}
+
+	const modeMap: ModeMapType = {};
+	let maxEl = array[0];
+	let maxCount = 1;
+
+	for (let i = 0; i < array.length; i++) {
+		const el = array[i];
+		if (modeMap[el]) {
+			modeMap[el]++;
+		} else {
+			modeMap[el] = 1;
+		}
+
+		if (modeMap[el] > maxCount) {
+			maxEl = el;
+			maxCount = modeMap[el];
+		}
+	}
+
+	return {author: maxEl, blogs: maxCount};
 };
 
 const emptyBlog = [];
@@ -80,4 +108,6 @@ const bigBlogs = [
 	},
 ];
 
-export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog};
+const authors = bigBlogs.map((blog: BlogType) => blog.author);
+
+export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog, mostBlogs, authors};

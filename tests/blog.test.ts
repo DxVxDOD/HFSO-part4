@@ -38,3 +38,14 @@ describe('Favourite blog', () => {
 			__v: 0});
 	});
 });
+
+describe('Most Blogs', () => {
+	test('author with the most blogs', () => {
+		const {authors} = lisHelper;
+		const mostBlogs = lisHelper.mostBlogs(authors);
+		expect(mostBlogs).toEqual({
+			author: 'Robert C. Martin',
+			blogs: 3,
+		});
+	});
+});
