@@ -2,48 +2,6 @@
 import type BlogType from '../types/blogType.type.js';
 import type ModeMapType from '../types/modeMap.type.js';
 
-const dummy = (blog: BlogType[]) => 1;
-
-const totalLikes = (blogs: BlogType[]) => {
-	if (blogs.length) {
-		return blogs.map((blog: BlogType) => blog.likes).reduce((likeA, likeB) => likeA + likeB, 0);
-	}
-
-	return 0;
-};
-
-const favourtieBlog = (blogs: BlogType[]) => {
-	const likesArray = blogs.map((blog: BlogType) => blog.likes);
-	const favouriteBlog = blogs.find((blog: BlogType) => blog.likes === Math.max(...likesArray));
-	return favouriteBlog;
-};
-
-const mostBlogs = (array: string[]) => {
-	if (!array.length) {
-		return null;
-	}
-
-	const modeMap: ModeMapType = {};
-	let maxEl = array[0];
-	let maxCount = 1;
-
-	for (let i = 0; i < array.length; i++) {
-		const el = array[i];
-		if (modeMap[el]) {
-			modeMap[el]++;
-		} else {
-			modeMap[el] = 1;
-		}
-
-		if (modeMap[el] > maxCount) {
-			maxEl = el;
-			maxCount = modeMap[el];
-		}
-	}
-
-	return {author: maxEl, blogs: maxCount};
-};
-
 const emptyBlog = [];
 
 const oneBlog = [
@@ -108,6 +66,48 @@ const bigBlogs = [
 	},
 ];
 
-const authors = bigBlogs.map((blog: BlogType) => blog.author);
+const dummy = (blog: BlogType[]) => 1;
 
-export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog, mostBlogs, authors};
+const totalLikes = (blogs: BlogType[]) => {
+	if (blogs.length) {
+		return blogs.map((blog: BlogType) => blog.likes).reduce((likeA, likeB) => likeA + likeB, 0);
+	}
+
+	return 0;
+};
+
+const favourtieBlog = (blogs: BlogType[]) => {
+	const likesArray = blogs.map((blog: BlogType) => blog.likes);
+	const favouriteBlog = blogs.find((blog: BlogType) => blog.likes === Math.max(...likesArray));
+	return favouriteBlog;
+};
+
+const mostBlogs = (blogs: BlogType[]) => {
+	const authorArray = blogs.map((blog: BlogType) => blog.author);
+
+	if (!authorArray.length) {
+		return null;
+	}
+
+	const modeMap: ModeMapType = {};
+	let maxEl = authorArray[0];
+	let maxCount = 1;
+
+	for (let i = 0; i < authorArray.length; i++) {
+		const el = authorArray[i];
+		if (modeMap[el]) {
+			modeMap[el]++;
+		} else {
+			modeMap[el] = 1;
+		}
+
+		if (modeMap[el] > maxCount) {
+			maxEl = el;
+			maxCount = modeMap[el];
+		}
+	}
+
+	return {author: maxEl, blogs: maxCount};
+};
+
+export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog, mostBlogs};

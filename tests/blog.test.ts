@@ -41,8 +41,8 @@ describe('Favourite blog', () => {
 
 describe('Most Blogs', () => {
 	test('author with the most blogs', () => {
-		const {authors} = lisHelper;
-		const mostBlogs = lisHelper.mostBlogs(authors);
+		const {bigBlogs} = lisHelper;
+		const mostBlogs = lisHelper.mostBlogs(bigBlogs);
 		expect(mostBlogs).toEqual({
 			author: 'Robert C. Martin',
 			blogs: 3,
