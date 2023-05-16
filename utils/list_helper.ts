@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import type BlogType from '../types/blogType.type.js';
-import type ModeMapType from '../types/modeMap.type.js';
+import type MostLikes from '../types/mostLikes.type.js';
 
 const emptyBlog = [];
 
@@ -89,7 +89,7 @@ const mostBlogs = (blogs: BlogType[]) => {
 		return null;
 	}
 
-	const modeMap: ModeMapType = {};
+	const modeMap: Record<string, number> = {};
 	let maxEl = authorArray[0];
 	let maxCount = 1;
 
@@ -110,4 +110,35 @@ const mostBlogs = (blogs: BlogType[]) => {
 	return {author: maxEl, blogs: maxCount};
 };
 
-export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog, mostBlogs};
+const mostLikes = (blogs: BlogType[]) => {
+	const authors = blogs.map((blog: BlogType) => blog.author);
+	const uniqAuthors = [...new Set(authors)];
+	const authorLikeArray: MostLikes[] = [];
+
+	for (let i = 0; i < uniqAuthors.length; i++) {
+		for (let u = 0; u < blogs.length; u++) {
+			if (uniqAuthors[i] === blogs[u].author) {
+				authorLikeArray.push({author: blogs[u].author, likes: blogs[u].likes});
+			}
+		}
+	}
+
+	const uniqAuthorsAllLikes = authorLikeArray.reduce((acc: MostLikes[], curr: MostLikes) => {
+		const {author, likes} = curr;
+		const found: MostLikes = acc.find((item: MostLikes) => item.author === author)!;
+
+		if (found) {
+			found.likes += likes;
+		} else {
+			acc.push(curr);
+		}
+
+		return acc;
+	}, []);
+
+	const mostLikes = uniqAuthorsAllLikes.reduce((acc, curr) => (curr.likes > acc.likes ? curr : acc));
+
+	return mostLikes;
+};
+
+export default {dummy, bigBlogs, emptyBlog, oneBlog, totalLikes, favourtieBlog, mostBlogs, mostLikes};
