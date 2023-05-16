@@ -5,13 +5,9 @@ import type BlogType from '../types/blogType.type.js';
 
 const blogRouter = express.Router();
 
-blogRouter.get('/', (request, response) => {
-	Blog.find({})
-		.then(blogs => {
-			response.json(blogs);
-		}).catch(err => {
-			console.log(err);
-		});
+blogRouter.get('/', async (request, response) => {
+	const blogs = await Blog.find({});
+	response.json(blogs);
 });
 
 blogRouter.get('/:id', (request, response, next) => {
@@ -28,7 +24,7 @@ blogRouter.get('/:id', (request, response, next) => {
 		});
 });
 
-blogRouter.post('/', (request, response) => {
+blogRouter.post('/', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
@@ -39,16 +35,16 @@ blogRouter.post('/', (request, response) => {
 		likes: body.likes,
 	});
 
-	if (body === undefined) {
+	if (body === undefined || !body.author || !body.title || !body.likes || !body.url) {
 		return response.status(400).json({error: 'content is missing'});
 	}
 
-	blog.save()
-		.then(result => {
-			response.status(201).json(result);
-		}).catch(err => {
-			console.log(err);
-		});
+	try {
+		const savedBlog = await blog.save();
+		response.status(201).json(savedBlog);
+	} catch (exepcion) {
+		next(exepcion);
+	}
 });
 
 blogRouter.delete('/:id', (request, response, next) => {

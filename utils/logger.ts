@@ -1,9 +1,13 @@
 const info = <T>(...params: T[]) => {
-	console.log(...params);
+	if (process.env.NODE_ENV !== 'test') {
+		console.log(...params);
+	}
 };
 
 const error = <T>(...params: T[]) => {
-	console.error(...params);
+	if (process.env.NODE_ENV !== 'test') {
+		console.error(...params);
+	}
 };
 
 export default {info, error};
