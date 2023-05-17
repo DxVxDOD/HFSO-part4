@@ -27,7 +27,6 @@ blogSchema.set('toJSON', {
 	transform(document, returnedObject) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
 		returnedObject.id = returnedObject._id.toString();
-		delete returnedObject._id;
 		delete returnedObject.__v;
 	},
 });
