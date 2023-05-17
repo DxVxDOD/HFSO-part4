@@ -76,6 +76,22 @@ test('if the likes property is missing it defaults to 0', async () => {
 	expect(blogList).toHaveLength(helper.bigBlogs.length + 1);
 });
 
+test('if title or url are missing respond with 400 Bad Request', async () => {
+	await api
+		.post('/api/blog')
+		.send(helper.noUrlBlog)
+		.expect(400);
+
+	await api
+		.post('/api/blog')
+		.send(helper.noTitleBlog)
+		.expect(400);
+
+	const blogList = await helper.blogsInDb();
+
+	expect(blogList).toHaveLength(helper.bigBlogs.length);
+});
+
 test('checks if the identifier property is named id', async () => {
 	const response = await api.get('/api/blog');
 	const id = response.body.map((blog: BlogType) => blog._id);

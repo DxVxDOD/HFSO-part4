@@ -44,6 +44,22 @@ const noLikesBlog = {
 	__v: 0,
 };
 
+const noTitleBlog = {
+	_id: '5a422aa71b54a676294d87f8',
+	author: 'Edsger TEST TEST',
+	url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+	likes: 50,
+	__v: 0,
+};
+
+const noUrlBlog = {
+	_id: '5a422aa71b54a676294d87f8',
+	title: 'Go To TEST TEST Harmful',
+	author: 'Edsger TEST TEST',
+	likes: 50,
+	__v: 0,
+};
+
 const nonExistingId = async () => {
 	const blog = new Blog({
 		title: 'React patterns',
@@ -64,4 +80,4 @@ const blogsInDb = async () => {
 	return blogs.map(blog => blog.toJSON());
 };
 
-export default {blogsInDb, nonExistingId, bigBlogs, validBlog, noAuthorBlog, noLikesBlog};
+export default {blogsInDb, nonExistingId, bigBlogs, validBlog, noAuthorBlog, noLikesBlog, noTitleBlog, noUrlBlog};
