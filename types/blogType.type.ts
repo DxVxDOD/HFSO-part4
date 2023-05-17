@@ -1,4 +1,5 @@
 type BlogType = {
+	_id: string;
 	title: string;
 	author: string;
 	url: string;

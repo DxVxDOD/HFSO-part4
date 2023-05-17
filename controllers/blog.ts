@@ -1,6 +1,5 @@
 import express from 'express';
 import Blog from '../models/blog.js';
-import {nextTick} from 'process';
 import type BlogType from '../types/blogType.type.js';
 
 const blogRouter = express.Router();
@@ -10,23 +9,22 @@ blogRouter.get('/', async (request, response) => {
 	response.json(blogs);
 });
 
-blogRouter.get('/:id', (request, response, next) => {
-	Blog.findById(request.params.id)
-		.then(blog => {
-			if (blog) {
-				response.json(blog);
-			} else {
-				response.status(404).end();
-			}
-		})
-		.catch(err => {
-			next(err);
-		});
+blogRouter.get('/:id', async (request, response) => {
+	const blog = await Blog.findById(request.params.id);
+	response.json(blog);
 });
 
 blogRouter.post('/', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
+
+	if (!body.likes) {
+		Object.assign(body, {likes: 0});
+	}
+
+	if (body === undefined || !body.author || !body.title || !body.url) {
+		return response.status(400).json({error: 'content is missing'});
+	}
 
 	const blog = new Blog({
 		title: body.title,
@@ -35,44 +33,29 @@ blogRouter.post('/', async (request, response, next) => {
 		likes: body.likes,
 	});
 
-	if (body === undefined || !body.author || !body.title || !body.likes || !body.url) {
-		return response.status(400).json({error: 'content is missing'});
-	}
-
-	try {
-		const savedBlog = await blog.save();
-		response.status(201).json(savedBlog);
-	} catch (exepcion) {
-		next(exepcion);
-	}
+	const savedBlog = await blog.save();
+	response.status(201).json(savedBlog);
 });
 
-blogRouter.delete('/:id', (request, response, next) => {
-	Blog.findByIdAndRemove(request.params.id)
-		.then(() => {
-			response.status(204).end();
-		})
-		.catch(err => {
-			next(err);
-		});
+blogRouter.delete('/:id', async (request, response) => {
+	await Blog.findByIdAndRemove(request.params.id);
+	response.status(204).end();
 });
 
-blogRouter.put('/:id', (request, response, next) => {
+blogRouter.put('/:id', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
 	const blog: BlogType = {
+		_id: body._id,
 		title: body.title,
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
 	};
 
-	Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
-		.then(updatedBlog => response.json(updatedBlog))
-		.catch(err => {
-			next(err);
-		});
+	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true});
+	response.json(updatedBlog);
 });
 
 export default blogRouter;

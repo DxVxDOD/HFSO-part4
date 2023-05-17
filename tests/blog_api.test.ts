@@ -11,10 +11,10 @@ const api = supertest(app);
 
 beforeEach(async () => {
 	await Blog.deleteMany({});
-	let blogObject = new Blog(helper.bigBlogs[0]);
-	await blogObject.save();
-	blogObject = new Blog(helper.bigBlogs[1]);
-	await blogObject.save();
+
+	const blogObject = helper.bigBlogs.map(blog => new Blog(blog));
+	const promiseArray = blogObject.map(async blog => blog.save());
+	await Promise.all(promiseArray);
 });
 
 test('blogs are returned as json', async () => {
@@ -37,18 +37,9 @@ test('a specific blog is returned', async () => {
 });
 
 test('a valid note can be added', async () => {
-	const newBlog = {
-		_id: '5a422aa71b54a676294d87f8',
-		title: 'Go To TEST TEST Harmful',
-		author: 'Edsger TEST TEST',
-		url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-		likes: 50,
-		__v: 0,
-	};
-
 	await api
 		.post('/api/blog')
-		.send(newBlog)
+		.send(helper.validBlog)
 		.expect(201)
 		.expect('Content-Type', /application\/json/);
 
@@ -61,22 +52,35 @@ test('a valid note can be added', async () => {
 });
 
 test('blog without any author is not valid', async () => {
-	const newBlog = {
-		_id: '521422aa71b54a676294d87f8',
-		title: 'TEST To TEST TEST Harmful',
-		url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-		likes: 50,
-		__v: 0,
-	};
-
 	await api
 		.post('/api/blog')
-		.send(newBlog)
+		.send(helper.noAuthorBlog)
 		.expect(400);
 
 	const blogsAtTheEnd = await helper.blogsInDb();
 
 	expect(blogsAtTheEnd).toHaveLength(helper.bigBlogs.length);
+});
+
+test('if the likes property is missing it defaults to 0', async () => {
+	await api
+		.post('/api/blog')
+		.send(helper.noLikesBlog)
+		.expect(201)
+		.expect('Content-Type', /application\/json/);
+
+	const blogList = await helper.blogsInDb();
+	const noLike = blogList.map(blog => blog.likes === 0).includes(true);
+
+	expect(noLike).toBe(true);
+	expect(blogList).toHaveLength(helper.bigBlogs.length + 1);
+});
+
+test('checks if the identifier property is named id', async () => {
+	const response = await api.get('/api/blog');
+	const id = response.body.map((blog: BlogType) => blog._id);
+
+	expect(id).toBeDefined();
 });
 
 afterAll(async () => mongoose.connection.close());

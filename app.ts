@@ -6,6 +6,7 @@ import logger from './utils/logger.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import middleware from './utils/middleware.js';
+import 'express-async-errors';
 
 const app = express();
 
