@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import middleware from './utils/middleware.js';
 import 'express-async-errors';
+import userRouter from './controllers/users.js';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use('/api/blog', blogRouter);
+app.use('/api/users', userRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

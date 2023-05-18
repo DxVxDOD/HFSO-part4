@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import mongoose from 'mongoose';
 import supertest from 'supertest';
-import helper from './test_helper.js';
+import helper from './blog_test_helper.js';
 import app from '../app.js';
 import Blog from '../models/blog.js';
 import type BlogType from '../types/blogType.type.js';
@@ -33,8 +33,11 @@ describe('Checking how blogs are returned', () => {
 
 	test('a specific blog is returned', async () => {
 		const response = await api.get('/api/blog');
-		const contents = response.body.map((resp: BlogType) => resp.title);
-		expect(contents).toContain('Go To Statement Considered Harmful');
+		const id: string = await response.body.map((resp: BlogType) => resp._id)[0];
+		const authors = await response.body.map((resp: BlogType) => resp.author);
+
+		const specificBlog = await api.get(`/api/blog/${id}`);
+		expect(authors).toContain(specificBlog.body.author);
 	});
 });
 

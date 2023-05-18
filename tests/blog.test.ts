@@ -16,7 +16,7 @@ describe('Total likes', () => {
 		const totalLikes = lisHelper.totalLikes(emptyBlog);
 		expect(totalLikes).toBe(0);
 	});
-	test('when list hsa only one posting', () => {
+	test('when list has only one posting', () => {
 		const totalLikes = lisHelper.totalLikes(oneBlog);
 		expect(totalLikes).toBe(7);
 	});
