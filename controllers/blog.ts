@@ -31,9 +31,9 @@ blogRouter.post('/', async (request, response, next) => {
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
-	});
+	})!;
 
-	const savedBlog = await blog.save();
+	const savedBlog: BlogType = await blog.save();
 	response.status(201).json(savedBlog);
 });
 
@@ -46,7 +46,7 @@ blogRouter.put('/:id', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	const blog: BlogType = {
+	const blog = {
 		_id: body._id,
 		title: body.title,
 		author: body.author,

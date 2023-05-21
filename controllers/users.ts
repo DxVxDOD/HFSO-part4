@@ -1,7 +1,6 @@
 import bycrypt from 'bcrypt';
 import express from 'express';
 import User from '../models/user.js';
-import UserT from '../types/user.type.js';
 
 const userRouter = express.Router();
 
@@ -16,7 +15,7 @@ userRouter.get('/:id', async (request, response) => {
 });
 
 userRouter.post('/', async (request, response) => {
-	const users = (await User.find({})).map(user => user.username)!;
+	const users = (await User.find({})).map(user => user.username);
 
 	if (request.body === undefined) {
 		return response.status(400).json({error: 'Content is missing'});
@@ -54,7 +53,7 @@ userRouter.post('/', async (request, response) => {
 		username,
 		name,
 		passwordHashEd,
-	});
+	})!;
 
 	const savedUser = await user.save();
 	response.status(201).json(savedUser);

@@ -3,6 +3,17 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import config from '../utils/config.js';
 
+type IBlog = {
+	title: string;
+	author: string;
+	url: string;
+	likes: number;
+	user: {
+		type: typeof mongoose.Schema.Types.ObjectId;
+		ref: 'Blog';
+	};
+} & mongoose.Document;
+
 dotenv.config();
 
 const {MONGO_URI} = config;
@@ -29,12 +40,12 @@ const blogSchema = new mongoose.Schema({
 
 blogSchema.set('toJSON', {
 	transform(document, returnedObject) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		returnedObject.id = returnedObject._id.toString();
 		delete returnedObject.__v;
 	},
 });
 
-const Blog = mongoose.model('Blog', blogSchema);
+const Blog = mongoose.model<IBlog>('Blog', blogSchema);
 
 export default Blog;

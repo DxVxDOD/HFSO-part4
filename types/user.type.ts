@@ -4,7 +4,7 @@ type User = {
 	username: string;
 	name: string;
 	password: string;
-	notes: [
+	blogs: [
 		{
 			type: typeof mongoose.Schema.Types.ObjectId;
 			ref: string;

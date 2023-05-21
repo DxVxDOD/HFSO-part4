@@ -2,6 +2,19 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import config from '../utils/config.js';
+import uniqueValidator from 'mongoose-unique-validator';
+
+type IUser = {
+	username: string;
+	name: string;
+	passwordHash: string;
+	blogs: [
+		{
+			type: typeof mongoose.Schema.Types.ObjectId;
+			ref: 'User';
+		},
+	];
+};
 
 dotenv.config();
 
@@ -17,7 +30,11 @@ mongoose.connect(MONGO_URI)
 	});
 
 const userSchema = new mongoose.Schema({
-	username: String,
+	username: {
+		type: String,
+		required: true,
+		unique: true,
+	},
 	name: String,
 	passwordHash: String,
 	blogs: [
@@ -27,6 +44,8 @@ const userSchema = new mongoose.Schema({
 		},
 	],
 });
+
+userSchema.plugin(uniqueValidator);
 
 userSchema.set('toJSON', {
 	transform(document, returnedObject) {
@@ -38,6 +57,6 @@ userSchema.set('toJSON', {
 	},
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

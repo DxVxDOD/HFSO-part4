@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import mongoose from 'mongoose';
 import supertest from 'supertest';
 import helper from './blog_test_helper.js';
@@ -17,7 +15,7 @@ beforeEach(async () => {
 	await Promise.all(promiseArray);
 });
 
-describe.skip('Checking how blogs are returned', () => {
+describe('Checking how blogs are returned', () => {
 	test('blogs are returned as json', async () => {
 		await api
 			.get('/api/blog')
@@ -33,7 +31,9 @@ describe.skip('Checking how blogs are returned', () => {
 
 	test('a specific blog is returned', async () => {
 		const response = await api.get('/api/blog');
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const id: string = await response.body.map((resp: BlogType) => resp._id)[0];
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const authors = await response.body.map((resp: BlogType) => resp.author);
 
 		const specificBlog = await api.get(`/api/blog/${id}`);
@@ -41,7 +41,7 @@ describe.skip('Checking how blogs are returned', () => {
 	});
 });
 
-describe.skip('Checks how blogs are posted', () => {
+describe('Checks how blogs are posted', () => {
 	test('a valid note can be added', async () => {
 		await api
 			.post('/api/blog')
@@ -52,7 +52,7 @@ describe.skip('Checks how blogs are posted', () => {
 		const blogsAtTheEnd = await helper.blogsInDb();
 		expect(blogsAtTheEnd).toHaveLength(helper.bigBlogs.length + 1);
 
-		const author = blogsAtTheEnd.map(resp => resp.author);
+		const author = blogsAtTheEnd.map((resp: BlogType) => resp.author);
 
 		expect(author).toContain('Edsger TEST TEST');
 	});
@@ -102,15 +102,16 @@ describe.skip('Checks how blogs are posted', () => {
 describe('Checking proper property name', () => {
 	test('checks if the identifier property is named id', async () => {
 		const response = await api.get('/api/blog');
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const id = response.body.map((blog: BlogType) => blog._id);
 
 		expect(id).toBeDefined();
 	});
 });
 
-describe.skip('Deleting a blog post', () => {
+describe('Deleting a blog post', () => {
 	test('checks if deletion was succesful', async () => {
-		const blogList = await helper.blogsInDb();
+		const blogList: BlogType[] = await helper.blogsInDb();
 		const blogToDelete = blogList[0];
 
 		await api
@@ -126,17 +127,17 @@ describe.skip('Deleting a blog post', () => {
 	});
 });
 
-describe.skip('Updating a blog post', () => {
+describe('Updating a blog post', () => {
 	test('checks if a post has succesfully ben updated by the number of likes', async () => {
 		const bloglist = await helper.blogsInDb();
 		const blogToUpadate = bloglist[0];
-		blogToUpadate.likes! += 10;
+		blogToUpadate.likes += 10;
 		await api
 			.put(`/api/blog/${blogToUpadate._id.toString()}`)
 			.send(blogToUpadate)
 			.expect(200);
 
-		const blogDbLikes = (await helper.blogsInDb()).map(blog => blog.likes).reduce((acc, curr) => acc! + curr!, 0);
+		const blogDbLikes = (await helper.blogsInDb()).map(blog => blog.likes).reduce((acc, curr) => acc + curr, 0);
 		const initialDbLikes = helper.bigBlogs.map(blogs => blogs.likes).reduce((acc, curr) => acc + curr, 0);
 
 		expect(blogDbLikes).not.toEqual(initialDbLikes);
