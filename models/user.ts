@@ -11,7 +11,7 @@ type IUser = {
 	blogs: [
 		{
 			type: typeof mongoose.Schema.Types.ObjectId;
-			ref: 'User';
+			ref: 'Blog';
 		},
 	];
 };
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
 	blogs: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			ref: 'Blog',
 		},
 	],
 });
@@ -50,7 +50,7 @@ userSchema.plugin(uniqueValidator);
 userSchema.set('toJSON', {
 	transform(document, returnedObject) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-		returnedObject.id = returnedObject._id.toString();
+		Object.assign(returnedObject, {id: returnedObject._id.toString()});
 		delete returnedObject._id;
 		delete returnedObject.__v;
 		delete returnedObject.passwordHash;

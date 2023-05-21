@@ -11,49 +11,49 @@ describe.skip('Dummy', () => {
 	});
 });
 
-describe.skip('Total likes', () => {
-	test('of empty list is 0', () => {
-		const totalLikes = lisHelper.totalLikes(emptyBlog);
-		expect(totalLikes).toBe(0);
-	});
-	test('when list has only one posting', () => {
-		const totalLikes = lisHelper.totalLikes(oneBlog);
-		expect(totalLikes).toBe(7);
-	});
-	test('of a large list benig calculated', () => {
-		const totalLikes = lisHelper.totalLikes(bigBlogs);
-		expect(totalLikes).toBe(36);
-	});
-});
+// Describe.skip('Total likes', () => {
+// 	test('of empty list is 0', () => {
+// 		const totalLikes = lisHelper.totalLikes(emptyBlog);
+// 		expect(totalLikes).toBe(0);
+// 	});
+// 	test('when list has only one posting', () => {
+// 		const totalLikes = lisHelper.totalLikes(oneBlog);
+// 		expect(totalLikes).toBe(7);
+// 	});
+// 	test('of a large list benig calculated', () => {
+// 		const totalLikes = lisHelper.totalLikes(bigBlogs);
+// 		expect(totalLikes).toBe(36);
+// 	});
+// });
 
-describe.skip('Favourite blog', () => {
-	test('favourtie === highest likes', () => {
-		const favourtieBlog = lisHelper.favourtieBlog(bigBlogs);
-		expect(favourtieBlog).toEqual({_id: '5a422b3a1b54a676234d17f9',
-			title: 'Canonical string reduction',
-			author: 'Edsger W. Dijkstra',
-			url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-			likes: 12,
-			__v: 0});
-	});
-});
+// describe.skip('Favourite blog', () => {
+// 	test('favourtie === highest likes', () => {
+// 		const favourtieBlog = lisHelper.favourtieBlog(bigBlogs);
+// 		expect(favourtieBlog).toEqual({_id: '5a422b3a1b54a676234d17f9',
+// 			title: 'Canonical string reduction',
+// 			author: 'Edsger W. Dijkstra',
+// 			url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+// 			likes: 12,
+// 			__v: 0});
+// 	});
+// });
 
-describe.skip('Most Blogs', () => {
-	test('author with the most blogs', () => {
-		const mostBlogs = lisHelper.mostBlogs(bigBlogs);
-		expect(mostBlogs).toEqual({
-			author: 'Robert C. Martin',
-			blogs: 3,
-		});
-	});
-});
+// describe.skip('Most Blogs', () => {
+// 	test('author with the most blogs', () => {
+// 		const mostBlogs = lisHelper.mostBlogs(bigBlogs);
+// 		expect(mostBlogs).toEqual({
+// 			author: 'Robert C. Martin',
+// 			blogs: 3,
+// 		});
+// 	});
+// });
 
-describe.skip('Most likes', () => {
-	test('author with the most likes', () => {
-		const mostLikes = lisHelper.mostLikes(bigBlogs);
-		expect(mostLikes).toEqual({
-			author: 'Edsger W. Dijkstra',
-			likes: 17,
-		});
-	});
-});
+// describe.skip('Most likes', () => {
+// 	test('author with the most likes', () => {
+// 		const mostLikes = lisHelper.mostLikes(bigBlogs);
+// 		expect(mostLikes).toEqual({
+// 			author: 'Edsger W. Dijkstra',
+// 			likes: 17,
+// 		});
+// 	});
+// });

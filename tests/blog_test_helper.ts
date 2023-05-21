@@ -1,5 +1,4 @@
 import Blog from '../models/blog.js';
-import type BlogType from '../types/blogType.type.js';
 
 const bigBlogs = [
 	{
@@ -72,7 +71,7 @@ const nonExistingId = async () => {
 	return blog._id.toString();
 };
 
-const blogsInDb = async (): Promise<BlogType[]> => {
+const blogsInDb = async () => {
 	const blogs = await Blog.find({});
 	return blogs.map(blog => blog.toJSON());
 };

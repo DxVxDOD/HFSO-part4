@@ -10,7 +10,7 @@ type IBlog = {
 	likes: number;
 	user: {
 		type: typeof mongoose.Schema.Types.ObjectId;
-		ref: 'Blog';
+		ref: 'User';
 	};
 } & mongoose.Document;
 
@@ -41,7 +41,8 @@ const blogSchema = new mongoose.Schema({
 blogSchema.set('toJSON', {
 	transform(document, returnedObject) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-		returnedObject.id = returnedObject._id.toString();
+		Object.assign(returnedObject, {id: returnedObject._id.toString()});
+		delete returnedObject._id;
 		delete returnedObject.__v;
 	},
 });
