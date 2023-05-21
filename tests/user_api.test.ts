@@ -25,7 +25,7 @@ describe('Users are being posted in the DB', () => {
 		await api
 			.post('/api/users')
 			.send(helper.newUser)
-			.expect(201);
+			.expect(201)
 			.expect('Content-Type', /application\/json/);
 
 		const usersAtTheEnd = await helper.usersInDb();
@@ -35,43 +35,60 @@ describe('Users are being posted in the DB', () => {
 		expect(usernames).toContain(helper.newUser.username);
 	});
 
-	// test('creating a user with a fresh username', async () => {
-	// 	const usersAtStart = await helper.usersInDb();
+	test('users have password', async () => {
+		await api
+			.post('/api/users')
+			.send(helper.noPasswordUser)
+			.expect(400);
 
-	// 	await api
-	// 		.post('/api/users')
-	// 		.send(helper.starterUsers[0])
-	// 		.expect(201)
-	// 		.expect('Content-Type', /application\/json/);
+		const userList = await helper.usersInDb();
 
-	// 	const usersAtTheEnd = await helper.usersInDb();
-	// 	expect(usersAtTheEnd).toHaveLength(usersAtStart.length + 1);
+		expect(userList).toHaveLength(helper.starterUsers.length);
+	});
 
-	// 	const usernames = usersAtTheEnd.map(user => user.username);
-	// 	expect(usernames).toContain(helper.newUser.username);
-	// });
+	test('users have username', async () => {
+		await api
+			.post('/api/users')
+			.send(helper.noUsernameUser)
+			.expect(400);
 
-	// Test('users have password', async () => {
-	// 	await api
-	// 		.post('/api/users')
-	// 		.send(helper.noPasswordUser)
-	// 		.expect(400);
+		const userList = await helper.usersInDb();
 
-	// 	const userList = await helper.usersInDb();
+		expect(userList).toHaveLength(helper.starterUsers.length);
+	});
 
-	// 	expect(userList).toHaveLength(helper.starterUsers.length);
-	// });
+	test('username is shorter than 3 characters', async () => {
+		await api
+			.post('/api/users')
+			.send(helper.shortUsername)
+			.expect(400);
 
-	// test('users have username', async () => {
-	// 	await api
-	// 		.post('/api/users')
-	// 		.send(helper.noUsernameUser)
-	// 		.expect(400);
+		const userList = await helper.usersInDb();
 
-	// 	const userList = await helper.usersInDb();
+		expect(userList).toHaveLength(helper.starterUsers.length);
+	});
 
-	// 	expect(userList).toHaveLength(helper.starterUsers.length);
-	// });
+	test('password is shorter than 3 characters', async () => {
+		await api
+			.post('/api/users')
+			.send(helper.shortPassword)
+			.expect(400);
+
+		const userList = await helper.usersInDb();
+
+		expect(userList).toHaveLength(helper.starterUsers.length);
+	});
+
+	test('username must be unique', async () => {
+		await api
+			.post('/api/users')
+			.send(helper.notUniqueUser)
+			.expect(400);
+
+		const userList = await helper.usersInDb();
+
+		expect(userList).toHaveLength(helper.starterUsers.length);
+	});
 });
 
 describe('Users are returned properly from the DB', () => {

@@ -29,9 +29,27 @@ const noUsernameUser = {
 	passwordHash: '987456123',
 };
 
+const shortUsername = {
+	username: 'Da',
+	name: 'David Orbang Jozsef',
+	passwordHash: '987456123',
+};
+
+const shortPassword = {
+	username: 'DavidO',
+	name: 'David Orbang Jozsef',
+	passwordHash: '98',
+};
+
+const notUniqueUser = {
+	username: 'David',
+	name: 'David Orban Jozsef',
+	passwordHash: '987456123',
+};
+
 const usersInDb = async () => {
 	const users = await User.find({});
 	return users.map(user => user.toJSON());
 };
 
-export default {usersInDb, starterUsers, newUser, noPasswordUser, noUsernameUser};
+export default {usersInDb, starterUsers, newUser, noPasswordUser, noUsernameUser, shortPassword, shortUsername, notUniqueUser};

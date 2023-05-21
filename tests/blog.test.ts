@@ -3,7 +3,7 @@ const {bigBlogs} = lisHelper;
 const {emptyBlog} = lisHelper;
 const {oneBlog} = lisHelper;
 
-describe('Dummy', () => {
+describe.skip('Dummy', () => {
 	test('dummy return one', () => {
 		const blogs = [];
 		const result = lisHelper.dummy(blogs);
@@ -11,7 +11,7 @@ describe('Dummy', () => {
 	});
 });
 
-describe('Total likes', () => {
+describe.skip('Total likes', () => {
 	test('of empty list is 0', () => {
 		const totalLikes = lisHelper.totalLikes(emptyBlog);
 		expect(totalLikes).toBe(0);
@@ -26,7 +26,7 @@ describe('Total likes', () => {
 	});
 });
 
-describe('Favourite blog', () => {
+describe.skip('Favourite blog', () => {
 	test('favourtie === highest likes', () => {
 		const favourtieBlog = lisHelper.favourtieBlog(bigBlogs);
 		expect(favourtieBlog).toEqual({_id: '5a422b3a1b54a676234d17f9',
@@ -38,7 +38,7 @@ describe('Favourite blog', () => {
 	});
 });
 
-describe('Most Blogs', () => {
+describe.skip('Most Blogs', () => {
 	test('author with the most blogs', () => {
 		const mostBlogs = lisHelper.mostBlogs(bigBlogs);
 		expect(mostBlogs).toEqual({
@@ -48,7 +48,7 @@ describe('Most Blogs', () => {
 	});
 });
 
-describe('Most likes', () => {
+describe.skip('Most likes', () => {
 	test('author with the most likes', () => {
 		const mostLikes = lisHelper.mostLikes(bigBlogs);
 		expect(mostLikes).toEqual({

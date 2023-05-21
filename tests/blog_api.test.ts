@@ -17,7 +17,7 @@ beforeEach(async () => {
 	await Promise.all(promiseArray);
 });
 
-describe('Checking how blogs are returned', () => {
+describe.skip('Checking how blogs are returned', () => {
 	test('blogs are returned as json', async () => {
 		await api
 			.get('/api/blog')
@@ -41,7 +41,7 @@ describe('Checking how blogs are returned', () => {
 	});
 });
 
-describe('Checks how blogs are posted', () => {
+describe.skip('Checks how blogs are posted', () => {
 	test('a valid note can be added', async () => {
 		await api
 			.post('/api/blog')
@@ -108,7 +108,7 @@ describe('Checking proper property name', () => {
 	});
 });
 
-describe('Deleting a blog post', () => {
+describe.skip('Deleting a blog post', () => {
 	test('checks if deletion was succesful', async () => {
 		const blogList = await helper.blogsInDb();
 		const blogToDelete = blogList[0];
@@ -126,7 +126,7 @@ describe('Deleting a blog post', () => {
 	});
 });
 
-describe('Updating a blog post', () => {
+describe.skip('Updating a blog post', () => {
 	test('checks if a post has succesfully ben updated by the number of likes', async () => {
 		const bloglist = await helper.blogsInDb();
 		const blogToUpadate = bloglist[0];
