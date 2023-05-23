@@ -7,7 +7,7 @@ import type mongoose from 'mongoose';
 const blogRouter = express.Router();
 
 blogRouter.get('/', async (request, response) => {
-	const blogs = await Blog.find({}).populate('user');
+	const blogs = await Blog.find({}).populate('user', {author: 1, title: 1});
 	response.json(blogs);
 });
 
@@ -26,9 +26,9 @@ blogRouter.post('/', async (request, response, next) => {
 		Object.assign(body, {likes: 0});
 	}
 
-	if (body === undefined || !body.author || !body.title || !body.url) {
-		return response.status(400).json({error: 'content is missing'});
-	}
+	// if (body === undefined || !body.author || !body.title || !body.url) {
+	// 	return response.status(400).json({error: 'content is missing'});
+	// }
 
 	const blog = new Blog({
 		title: body.title,

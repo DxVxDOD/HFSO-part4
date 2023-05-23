@@ -9,7 +9,7 @@ type IBlog = {
 	url: string;
 	likes: number;
 	user: {
-		type: typeof mongoose.Schema.Types.ObjectId;
+		type: mongoose.Schema.Types.ObjectId;
 		ref: 'User';
 	};
 } & mongoose.Document;
