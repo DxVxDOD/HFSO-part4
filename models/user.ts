@@ -49,6 +49,7 @@ userSchema.plugin(uniqueValidator);
 
 userSchema.set('toJSON', {
 	transform(document, returnedObject) {
+		// Object.assign(returnedObject, {id: returnedObject._id.toString()});
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		returnedObject.id = returnedObject._id.toString();
 		delete returnedObject._id;

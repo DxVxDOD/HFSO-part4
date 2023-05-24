@@ -6,7 +6,9 @@ import User from '../models/user.js';
 const blogRouter = express.Router();
 
 blogRouter.get('/', async (request, response) => {
+
 	const blogs = await Blog.find({}).populate('user', {username: 1, name: 1});
+
 	response.json(blogs);
 });
 
@@ -31,7 +33,7 @@ blogRouter.post('/', async (request, response, next) => {
 	if (!request.body.title) {
 		return response.status(400).json({error: 'title is missing'});
 	}
-
+  
 	if (!request.body.url) {
 		return response.status(400).json({error: 'url is missing'});
 	}
@@ -56,6 +58,7 @@ blogRouter.post('/', async (request, response, next) => {
 	}
 
 	await user?.save();
+
 	response.status(201).json(savedBlog);
 });
 

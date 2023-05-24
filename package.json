@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=production npx ts-node --esm ./index.ts",
     "dev": "nodemon",
     "build": "tsc",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
