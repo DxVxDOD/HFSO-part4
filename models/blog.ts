@@ -10,7 +10,7 @@ type IBlog = {
 	likes: number;
 	user: {
 		type: typeof mongoose.Schema.Types.ObjectId;
-		ref: 'Blog';
+		ref: 'User';
 	};
 } & mongoose.Document;
 

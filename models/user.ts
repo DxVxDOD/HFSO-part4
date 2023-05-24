@@ -4,16 +4,16 @@ import dotenv from 'dotenv';
 import config from '../utils/config.js';
 import uniqueValidator from 'mongoose-unique-validator';
 
+type Blogs = {
+	type: mongoose.Schema.Types.ObjectId;
+	ref: 'Blog';
+};
+
 type IUser = {
 	username: string;
 	name: string;
 	passwordHash: string;
-	blogs: [
-		{
-			type: typeof mongoose.Schema.Types.ObjectId;
-			ref: 'User';
-		},
-	];
+	blogs: Blogs[];
 };
 
 dotenv.config();
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
 	blogs: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+			ref: 'Blog',
 		},
 	],
 });
