@@ -41,7 +41,7 @@ const blogSchema = new mongoose.Schema({
 blogSchema.set('toJSON', {
 	transform(document, returnedObject) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-		Object.assign(returnedObject, {id: returnedObject._id.toString()});
+		returnedObject.id = returnedObject._id.toString();
 		delete returnedObject._id;
 		delete returnedObject.__v;
 	},

@@ -32,7 +32,7 @@ describe('Checking how blogs are returned', () => {
 	test('a specific blog is returned', async () => {
 		const response = await api.get('/api/blog');
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-		const id: string = await response.body.map((resp: BlogType) => resp._id)[0];
+		const id: string = await response.body.map((resp: BlogType) => resp.id)[0];
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const authors = await response.body.map((resp: BlogType) => resp.author);
 
@@ -103,7 +103,7 @@ describe('Checking proper property name', () => {
 	test('checks if the identifier property is named id', async () => {
 		const response = await api.get('/api/blog');
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-		const id = response.body.map((blog: BlogType) => blog._id);
+		const id = response.body.map((blog: BlogType) => blog.id);
 
 		expect(id).toBeDefined();
 	});
@@ -117,7 +117,7 @@ describe('Deleting a blog post', () => {
 		const blogToDeleteId: string = blogList[0].id;
 
 		await api
-			.delete(`/api/blog/${blogToDeleteId.toString()}`)
+			.delete(`/api/blog/${blogToDelete.id.toString()}`)
 			.expect(204);
 
 		const bloglistAtEnd = await helper.blogsInDb();
@@ -131,13 +131,13 @@ describe('Deleting a blog post', () => {
 
 describe('Updating a blog post', () => {
 	test('checks if a post has succesfully ben updated by the number of likes', async () => {
-		const bloglist = await helper.blogsInDb();
+		const bloglist: BlogType[] = await helper.blogsInDb();
 		const blogToUpadate = bloglist[0];
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const blogToUpadateId: string = blogToUpadate.id;
 		blogToUpadate.likes += 10;
 		await api
-			.put(`/api/blog/${blogToUpadateId.toString()}`)
+			.put(`/api/blog/${blogToUpadate.id.toString()}`)
 			.send(blogToUpadate)
 			.expect(200);
 
