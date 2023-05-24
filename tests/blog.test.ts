@@ -3,7 +3,7 @@ const {bigBlogs} = lisHelper;
 const {emptyBlog} = lisHelper;
 const {oneBlog} = lisHelper;
 
-describe.skip('Dummy', () => {
+describe('Dummy', () => {
 	test('dummy return one', () => {
 		const blogs = [];
 		const result = lisHelper.dummy(blogs);
@@ -11,7 +11,7 @@ describe.skip('Dummy', () => {
 	});
 });
 
-describe.skip('Total likes', () => {
+describe('Total likes', () => {
 	test('of empty list is 0', () => {
 		const totalLikes = lisHelper.totalLikes(emptyBlog);
 		expect(totalLikes).toBe(0);
@@ -26,19 +26,20 @@ describe.skip('Total likes', () => {
 	});
 });
 
-describe.skip('Favourite blog', () => {
+describe('Favourite blog', () => {
 	test('favourtie === highest likes', () => {
 		const favourtieBlog = lisHelper.favourtieBlog(bigBlogs);
-		expect(favourtieBlog).toEqual({_id: '5a422b3a1b54a676234d17f9',
+		expect(favourtieBlog).toEqual({
+			id: '5a422b3a1b54a676234d17f9',
 			title: 'Canonical string reduction',
 			author: 'Edsger W. Dijkstra',
 			url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
 			likes: 12,
-			__v: 0});
+		});
 	});
 });
 
-describe.skip('Most Blogs', () => {
+describe('Most Blogs', () => {
 	test('author with the most blogs', () => {
 		const mostBlogs = lisHelper.mostBlogs(bigBlogs);
 		expect(mostBlogs).toEqual({
@@ -48,7 +49,7 @@ describe.skip('Most Blogs', () => {
 	});
 });
 
-describe.skip('Most likes', () => {
+describe('Most likes', () => {
 	test('author with the most likes', () => {
 		const mostLikes = lisHelper.mostLikes(bigBlogs);
 		expect(mostLikes).toEqual({

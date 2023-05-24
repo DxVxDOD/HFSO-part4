@@ -1,11 +1,12 @@
 import express from 'express';
 import Blog from '../models/blog.js';
 import type BlogType from '../types/blogType.type.js';
+import User from '../models/user.js';
 
 const blogRouter = express.Router();
 
 blogRouter.get('/', async (request, response) => {
-	const blogs = await Blog.find({});
+	const blogs = await Blog.find({}).populate('user', {username: 1, name: 1});
 	response.json(blogs);
 });
 
@@ -15,25 +16,46 @@ blogRouter.get('/:id', async (request, response) => {
 });
 
 blogRouter.post('/', async (request, response, next) => {
+	if (request.body === undefined) {
+		return response.status(400).json({error: 'content is missing'});
+	}
+
+	if (!request.body.likes) {
+		Object.assign(request.body, {likes: 0});
+	}
+
+	if (!request.body.author) {
+		return response.status(400).json({error: 'author is missing'});
+	}
+
+	if (!request.body.title) {
+		return response.status(400).json({error: 'title is missing'});
+	}
+
+	if (!request.body.url) {
+		return response.status(400).json({error: 'url is missing'});
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	if (!body.likes) {
-		Object.assign(body, {likes: 0});
-	}
-
-	if (body === undefined || !body.author || !body.title || !body.url) {
-		return response.status(400).json({error: 'content is missing'});
-	}
+	const user = await User.findById(body.userId);
 
 	const blog = new Blog({
 		title: body.title,
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
-	})!;
+		user: user?._id,
+	});
 
-	const savedBlog: BlogType = await blog.save();
+	const savedBlog = await blog.save();
+	if (user !== null) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		user.blogs = user?.blogs.concat(savedBlog._id);
+	}
+
+	await user?.save();
 	response.status(201).json(savedBlog);
 });
 
@@ -47,7 +69,7 @@ blogRouter.put('/:id', async (request, response, next) => {
 	const {body}: {body: BlogType} = request;
 
 	const blog = {
-		_id: body._id,
+		id: body.id,
 		title: body.title,
 		author: body.author,
 		url: body.url,

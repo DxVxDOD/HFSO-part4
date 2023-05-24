@@ -9,7 +9,7 @@ type IBlog = {
 	url: string;
 	likes: number;
 	user: {
-		type: typeof mongoose.Schema.Types.ObjectId;
+		type: mongoose.Schema.Types.ObjectId;
 		ref: 'User';
 	};
 } & mongoose.Document;
@@ -42,6 +42,7 @@ blogSchema.set('toJSON', {
 	transform(document, returnedObject) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		returnedObject.id = returnedObject._id.toString();
+		delete returnedObject._id;
 		delete returnedObject.__v;
 	},
 });
