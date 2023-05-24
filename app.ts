@@ -8,6 +8,7 @@ import cors from 'cors';
 import middleware from './utils/middleware.js';
 import 'express-async-errors';
 import userRouter from './controllers/users.js';
+import loginRouter from './controllers/login.js';
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(middleware.requestLogger);
 
 app.use('/api/blog', blogRouter);
 app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
