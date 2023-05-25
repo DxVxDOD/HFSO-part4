@@ -25,6 +25,11 @@ const errorHandler: ErrorRequestHandler = (error, request, response, next) => {
 		return response.status(400).json({error: error.message});
 	}
 
+	if (error.name === 'JsonWebTokenError') {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		return response.status(400).json({error: error.message});
+	}
+
 	next(error);
 };
 

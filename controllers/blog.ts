@@ -2,8 +2,20 @@ import express from 'express';
 import Blog from '../models/blog.js';
 import type BlogType from '../types/blogType.type.js';
 import User from '../models/user.js';
+import jwt, {type JwtPayload} from 'jsonwebtoken';
+import config from '../utils/config.js';
+import {type Request} from 'express-serve-static-core';
 
 const blogRouter = express.Router();
+
+const getTokenFrom = (request: Request<Record<string, unknown>>) => {
+	const auth = request.get('authorization')!;
+	if (auth?.startsWith('Bearer ')) {
+		return auth.replace('Bearer ', '');
+	}
+
+	return undefined;
+};
 
 blogRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({}).populate('user', {username: 1, name: 1});
@@ -39,7 +51,17 @@ blogRouter.post('/', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	const user = await User.findById(body.userId);
+	const decodedToken = jwt.verify(getTokenFrom(request)!, config.SECRET);
+
+	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
+
+	const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
+
+	if (!decodedTokenPayload.id) {
+		return response.status(401).json({error: 'token invalid'});
+	}
+
+	const user = await User.findById(decodedTokenPayload.id);
 
 	const blog = new Blog({
 		title: body.title,
