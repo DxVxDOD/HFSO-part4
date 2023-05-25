@@ -33,4 +33,13 @@ const errorHandler: ErrorRequestHandler = (error, request, response, next) => {
 	next(error);
 };
 
-export default {unknownEndpoint, errorHandler, requestLogger};
+const tokenExtractor = (request: Request, next: NextFunction) => {
+	const auth = request.get('authorization');
+	if (auth?.startsWith('Bearer ')) {
+		return auth.replace('Bearer ', '');
+	}
+
+	next();
+};
+
+export default {unknownEndpoint, errorHandler, requestLogger, tokenExtractor};

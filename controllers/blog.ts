@@ -4,18 +4,9 @@ import type BlogType from '../types/blogType.type.js';
 import User from '../models/user.js';
 import jwt, {type JwtPayload} from 'jsonwebtoken';
 import config from '../utils/config.js';
-import {type Request} from 'express-serve-static-core';
+import middleware from '../utils/middleware.js';
 
 const blogRouter = express.Router();
-
-const getTokenFrom = (request: Request<Record<string, unknown>>) => {
-	const auth = request.get('authorization')!;
-	if (auth?.startsWith('Bearer ')) {
-		return auth.replace('Bearer ', '');
-	}
-
-	return undefined;
-};
 
 blogRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({}).populate('user', {username: 1, name: 1});
@@ -51,7 +42,7 @@ blogRouter.post('/', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	const decodedToken = jwt.verify(getTokenFrom(request)!, config.SECRET);
+	const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
 
 	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
 
@@ -82,8 +73,26 @@ blogRouter.post('/', async (request, response, next) => {
 	response.status(201).json(savedBlog);
 });
 
-blogRouter.delete('/:id', async (request, response) => {
-	await Blog.findByIdAndRemove(request.params.id);
+blogRouter.delete('/:id', async (request, response, next) => {
+	const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
+
+	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
+
+	const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
+
+	if (!decodedTokenPayload.id) {
+		return response.status(401).json({error: 'token invalid'});
+	}
+
+	const user = await User.findById(decodedTokenPayload.id);
+	const blog = await Blog.findById(request.params.id);
+
+	if (blog?.user.toString() === user?._id.toString()) {
+		await Blog.findByIdAndRemove(request.params.id);
+	} else {
+		return response.status(401).json({error: 'You do not have the permision to delete this blog!'});
+	}
+
 	response.status(204).end();
 });
 

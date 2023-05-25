@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blog
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwMjUwMjR9.NueicvJ545Y4gFCvVV0FGYy1w9jNeS2z3BPQ9rxzX14
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwMjgxODl9.MBfeRIZDj2-DhzQHFZq9I9_nHZh514cP8oZSqX5Q_Ig
 
 {
-"title": "TOKEN AUTH TESTING",
+"title": "TOKEN AUTH DELETE METHOD TESTING",
 "author": "Michael Chan",
 "url": "https://reactpatterns.com/",
 "likes": 17,
@@ -19,3 +19,9 @@ Content-Type: application/json
     "username": "David",
     "passwordHash": "987456123"
 }
+
+###
+
+DELETE http://localhost:3003/api/blog/646e4d1e387fd1eed7f28289
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwMjgxODl9.MBfeRIZDj2-DhzQHFZq9I9_nHZh514cP8oZSqX5Q_Ig
