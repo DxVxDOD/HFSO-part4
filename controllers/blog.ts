@@ -8,6 +8,8 @@ import middleware from '../utils/middleware.js';
 
 const blogRouter = express.Router();
 
+const {userExtractor} = middleware;
+
 blogRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({}).populate('user', {username: 1, name: 1});
 	response.json(blogs);
@@ -18,7 +20,7 @@ blogRouter.get('/:id', async (request, response) => {
 	response.json(blog);
 });
 
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', userExtractor, async (request, response, next) => {
 	if (request.body === undefined) {
 		return response.status(400).json({error: 'content is missing'});
 	}
@@ -42,38 +44,43 @@ blogRouter.post('/', async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
+	// Const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
 
-	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
+	// const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
 
-	const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
+	// const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
 
-	if (!decodedTokenPayload.id) {
-		return response.status(401).json({error: 'token invalid'});
-	}
+	// if (!decodedTokenPayload.id) {
+	// 	return response.status(401).json({error: 'token invalid'});
+	// }
 
-	const user = await User.findById(decodedTokenPayload.id);
+	// const user = await User.findById(decodedTokenPayload.id);
+	const {user} = response.locals;
 
 	const blog = new Blog({
 		title: body.title,
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
-		user: user?._id,
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		user: user._id,
 	});
 
 	const savedBlog = await blog.save();
-	if (user !== null) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		user.blogs = user?.blogs.concat(savedBlog._id);
+	if (!user) {
+		return response.status(401).json({error: 'token is invalid'});
 	}
 
-	await user?.save();
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+	user.blogs = user.blogs.concat(savedBlog._id);
+
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+	await user.save();
 
 	response.status(201).json(savedBlog);
 });
 
-blogRouter.delete('/:id', async (request, response, next) => {
+blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
 	const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
 
 	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;

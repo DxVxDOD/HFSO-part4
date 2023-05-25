@@ -1,5 +1,12 @@
 import {type NextFunction, type Request, type Response, type ErrorRequestHandler} from 'express';
 import logger from './logger.js';
+import User from '../models/user.js';
+import jwt, {type JwtPayload} from 'jsonwebtoken';
+import config from './config.js';
+
+type UserT = {
+	user: typeof User;
+};
 
 const requestLogger = (request: Request, response: Response, next: NextFunction) => {
 	logger.info('Method', request.method);
@@ -42,4 +49,20 @@ const tokenExtractor = (request: Request, next: NextFunction) => {
 	next();
 };
 
-export default {unknownEndpoint, errorHandler, requestLogger, tokenExtractor};
+const userExtractor = async (request: Request, response: Response<UserT>, next: NextFunction) => {
+	const decodedToken = jwt.verify(tokenExtractor(request, next)!, config.SECRET);
+
+	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
+
+	const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
+
+	if (!decodedTokenPayload.id) {
+		return response.status(401);
+	}
+
+	response.locals.user = await User.findById(decodedTokenPayload.id)!;
+
+	next();
+};
+
+export default {unknownEndpoint, errorHandler, requestLogger, tokenExtractor, userExtractor};

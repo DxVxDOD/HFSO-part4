@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blog
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwMjgxODl9.MBfeRIZDj2-DhzQHFZq9I9_nHZh514cP8oZSqX5Q_Ig
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwNDIwMDN9.w5NZT-7RCvGJCUBlHVGn28YeKqoB7AZWzycPEQbrwOo
 
 {
-"title": "TOKEN AUTH DELETE METHOD TESTING",
+"title": "MIDDELWARE USER EXTRACTION 1001",
 "author": "Michael Chan",
 "url": "https://reactpatterns.com/",
 "likes": 17,
@@ -22,6 +22,6 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3003/api/blog/646e4d1e387fd1eed7f28289
+DELETE http://localhost:3003/api/blog/646fb6dd4e7c0dc7b2e02aa9
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NDZlNGM5ZjRiODE2OGM2NDhkMzc5ZWYiLCJpYXQiOjE2ODUwMjgxODl9.MBfeRIZDj2-DhzQHFZq9I9_nHZh514cP8oZSqX5Q_Ig
