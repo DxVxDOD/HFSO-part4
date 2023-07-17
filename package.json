@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=production npx ts-node --esm ./index.ts",
+    "start": "cross-env node --loader ts-node/esm ./index.ts",
     "dev": "nodemon",
     "build": "tsc",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles"

@@ -12,6 +12,7 @@
       "sourceMap": true,
       "outDir": "dist",
     },
+    "ts-node": {"esm": true},
     "include": ["./**/*.ts", "index.ts"],
     "exclude": ["node_modules"]
 }
