@@ -13,18 +13,17 @@ loginRouter.post('/', async (request, response) => {
 	const user = await User.findOne({username});
 	const passwordHashCorrect = user === null ? false : await bycrypt.compare(passwordHash, user.passwordHash);
 
-	if (!(user && passwordHashCorrect)) {
-		return response.status(401).json({error: 'invalid username or passwordHash'});
+	if (user && passwordHashCorrect) {
+		const userForToken = {
+			username: user.username,
+			id: user._id,
+		};
+		const token = jwt.sign(userForToken, config.SECRET);
+
+		return response.status(200).send({token, username: user.username, name: user.name});
 	}
 
-	const userForToken = {
-		username: user.username,
-		id: user._id,
-	};
-
-	const token = jwt.sign(userForToken, config.SECRET);
-
-	response.status(200).send({token, username: user.username, name: user.name});
+	response.status(401).json({error: 'invalid username or password'});
 });
 
 export default loginRouter;
