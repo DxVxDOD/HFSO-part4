@@ -44,17 +44,6 @@ blogRouter.post('/', userExtractor, async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
 
-	// Const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
-
-	// const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
-
-	// const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
-
-	// if (!decodedTokenPayload.id) {
-	// 	return response.status(401).json({error: 'token invalid'});
-	// }
-
-	// const user = await User.findById(decodedTokenPayload.id);
 	const {user} = response.locals;
 
 	const blog = new Blog({
@@ -81,20 +70,19 @@ blogRouter.post('/', userExtractor, async (request, response, next) => {
 });
 
 blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
-	const decodedToken = jwt.verify(middleware.tokenExtractor(request, next)!, config.SECRET);
-
-	const decodedTokenTypeChecker = (decodedToken: string | JwtPayload) => typeof decodedToken === 'string' ? undefined : decodedToken;
-
-	const decodedTokenPayload = decodedTokenTypeChecker(decodedToken)!;
-
-	if (!decodedTokenPayload.id) {
-		return response.status(401).json({error: 'token invalid'});
-	}
-
-	const user = await User.findById(decodedTokenPayload.id);
+	const user = await User.findById(response.locals.user);
 	const blog = await Blog.findById(request.params.id);
 
-	if (blog?.user.toString() === user?._id.toString()) {
+	if (!blog) {
+		return response.status(401).json({error: 'Blog problem'});
+	}
+
+	if (!user) {
+		return response.status(401).json({error: 'user problem'});
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-base-to-string
+	if (blog.user.toString() === user._id.toString()) {
 		await Blog.findByIdAndRemove(request.params.id);
 	} else {
 		return response.status(401).json({error: 'You do not have the permision to delete this blog!'});
@@ -103,15 +91,22 @@ blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
 	response.status(204).end();
 });
 
-blogRouter.put('/:id', async (request, response, next) => {
+blogRouter.put('/:id', userExtractor, async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
+
+	const {user} = response.locals;
+	if (!user) {
+		return response.status(401).json({error: 'token is invalid'});
+	}
 
 	const blog = {
 		title: body.title,
 		author: body.author,
 		url: body.url,
 		likes: body.likes,
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		user: user._id,
 	};
 
 	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true});
