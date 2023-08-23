@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blog
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA0NjAxMTh9.qkLhMCI44r8Xz3bT7rYIheeMrp9I68iFv_PfcDxytNI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA1NTc1Mjh9.SvVi_x3wQ6qZe1fUAqdbn38aatJVHUSxaubCLGJhzkc
 
 {
 "title": "MIDDELWARE USER EXTRACTION 1001",
@@ -22,6 +22,6 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3003/api/blog/64c251c38b0644d6f92adb5e
+DELETE http://localhost:3003/api/blog/64c255b0c620cfeb650a2fff
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA0NjA2OTV9.eozKH9eSZPnPOZjgXtinF2cvTKXzuNyvCnjYAQvVHD4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA1NTc1Mjh9.SvVi_x3wQ6qZe1fUAqdbn38aatJVHUSxaubCLGJhzkc

@@ -2,8 +2,6 @@ import express from 'express';
 import Blog from '../models/blog.js';
 import type BlogType from '../types/blogType.type.js';
 import User from '../models/user.js';
-import jwt, {type JwtPayload} from 'jsonwebtoken';
-import config from '../utils/config.js';
 import middleware from '../utils/middleware.js';
 
 const blogRouter = express.Router();
@@ -70,7 +68,7 @@ blogRouter.post('/', userExtractor, async (request, response, next) => {
 });
 
 blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
-	const user = await User.findById(response.locals.user);
+	const user = await User.findById(response.locals.user.id);
 	const blog = await Blog.findById(request.params.id);
 
 	if (!blog) {
@@ -94,8 +92,8 @@ blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
 blogRouter.put('/:id', userExtractor, async (request, response, next) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {body}: {body: BlogType} = request;
-
 	const {user} = response.locals;
+
 	if (!user) {
 		return response.status(401).json({error: 'token is invalid'});
 	}
