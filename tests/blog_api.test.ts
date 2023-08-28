@@ -31,7 +31,7 @@ describe('Checking how blogs are returned', () => {
 
 	test('a specific blog is returned', async () => {
 		const response = await api.get('/api/blog');
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const id: string = await response.body.map((resp: BlogType) => resp.id)[0];
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const authors = await response.body.map((resp: BlogType) => resp.author);
@@ -102,7 +102,7 @@ describe('Checks how blogs are posted', () => {
 describe('Checking proper property name', () => {
 	test('checks if the identifier property is named id', async () => {
 		const response = await api.get('/api/blog');
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 		const id = response.body.map((blog: BlogType) => blog.id);
 
 		expect(id).toBeDefined();

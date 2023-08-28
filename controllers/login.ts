@@ -8,12 +8,12 @@ const loginRouter = express.Router();
 
 loginRouter.post('/', async (request, response) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const {username, passwordHash}: {username: string; passwordHash: string} = request.body;
+	const {username, password}: {username: string; password: string} = request.body;
 
 	const user = await User.findOne({username});
-	const passwordHashCorrect = user === null ? false : await bycrypt.compare(passwordHash, user.passwordHash);
+	const passwordCorrect = user === null ? false : await bycrypt.compare(password, user.passwordHash);
 
-	if (user && passwordHashCorrect) {
+	if (user && passwordCorrect) {
 		const userForToken = {
 			username: user.username,
 			id: user._id,

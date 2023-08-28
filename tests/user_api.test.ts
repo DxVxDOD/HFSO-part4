@@ -11,8 +11,8 @@ beforeEach(async () => {
 	await User.deleteMany({});
 
 	const userObject = helper.starterUsers.map(async user => {
-		const password = await bycrypt.hash(user.passwordHash, 10);
-		return new User({...user, passwordHash: password});
+		const password = await bycrypt.hash(user.password, 10);
+		return new User({...user, password});
 	})!;
 	const promiseArray = userObject.map(async user => (await user).save());
 	await Promise.all(promiseArray);

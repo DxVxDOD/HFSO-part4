@@ -22,9 +22,9 @@ userRouter.post('/', async (request, response) => {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	const {username, name, passwordHash}: {username: string; name: string; passwordHash: string} = request.body;
+	const {username, name, password}: {username: string; name: string; password: string} = request.body;
 
-	if (!passwordHash) {
+	if (!password) {
 		return response.status(400).json({error: 'Password is missing'});
 	}
 
@@ -36,7 +36,7 @@ userRouter.post('/', async (request, response) => {
 		return response.status(400).json({error: 'Username is under 3 characters. Please provide a longer username.'});
 	}
 
-	if (passwordHash.length < 3) {
+	if (password.length < 3) {
 		return response.status(400).json({error: 'Password is under 3 characters. Please provide a longer username.'});
 	}
 
@@ -47,12 +47,12 @@ userRouter.post('/', async (request, response) => {
 	}
 
 	const saltRounds = 10;
-	const passwordHashEd = await bycrypt.hash(passwordHash, saltRounds);
+	const passwordHash = await bycrypt.hash(password, saltRounds);
 
 	const user = new User({
 		username,
 		name,
-		passwordHashEd,
+		passwordHash,
 	})!;
 
 	const savedUser = await user.save();

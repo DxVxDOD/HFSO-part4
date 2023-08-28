@@ -13,6 +13,6 @@
       "outDir": "dist",
     },
     "ts-node": {"esm": true},
-    "include": ["./**/*.ts", "index.ts"],
+    "include": ["./**/*.ts", "index.ts", "controllers/blog.ts"],
     "exclude": ["node_modules"]
 }
