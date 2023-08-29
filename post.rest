@@ -1,13 +1,11 @@
 POST http://localhost:3003/api/blog
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA1NTc1Mjh9.SvVi_x3wQ6qZe1fUAqdbn38aatJVHUSxaubCLGJhzkc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGVlNGE1MDMyYjUyNjRlYTFjNDBjOWMiLCJpYXQiOjE2OTMzMzk1Mjd9.VyqVuiM-1pjOL-wTWQ5oczurx6_N0B-So5Pxy9lA08s
 
 {
 "title": "MIDDELWARE USER EXTRACTION 1001",
 "author": "Michael Chan",
-"url": "https://reactpatterns.com/",
-"likes": 17,
-"id": "646e4ca4be8d8cdc58a9bb16"
+"url": "https://reactpatterns.com/"
 }
 
 ###
@@ -24,4 +22,4 @@ Content-Type: application/json
 
 DELETE http://localhost:3003/api/blog/64c255b0c620cfeb650a2fff
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGI1YTI4ZjdlMTVmZGU1OTdmNmNjNTQiLCJpYXQiOjE2OTA1NTc1Mjh9.SvVi_x3wQ6qZe1fUAqdbn38aatJVHUSxaubCLGJhzkc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGVlNGE1MDMyYjUyNjRlYTFjNDBjOWMiLCJpYXQiOjE2OTMzMzg0Mjh9.ovR68lOQ2-C9qcYlLatAVp1l6YFS_ciuI-OcKY-jIN8

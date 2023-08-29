@@ -9,6 +9,7 @@ import middleware from './utils/middleware.js';
 import 'express-async-errors';
 import userRouter from './controllers/users.js';
 import loginRouter from './controllers/login.js';
+import testingRouter from './controllers/testing.js';
 
 const app = express();
 
@@ -35,6 +36,10 @@ app.use(middleware.requestLogger);
 app.use('/api/blog', blogRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
+
+if (process.env.NODE_ENV === 'test') {
+	app.use('/api/testing', testingRouter);
+}
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
