@@ -1,7 +1,6 @@
-
 {
-    "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules", "dist"],
-    "watch": ["./"],
-    "exec": "cross-env NODE_ENV=development npm start",
-    "ext": "ts"
+  "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules", "dist"],
+  "watch": ["./"],
+  "exec": "cross-env NODE_ENV=development npm start",
+  "ext": "ts"
 }

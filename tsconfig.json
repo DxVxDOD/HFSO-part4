@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-      "lib": ["ESNext"],
-      "strictNullChecks": true,
-      "module": "NodeNext",
-      "esModuleInterop": true,
-      "moduleResolution": "nodenext",
-      "moduleDetection": "auto",
-      "types": ["node", "jest"],
-      "allowSyntheticDefaultImports": true,
-      "target": "ES2020",
-      "sourceMap": true,
-      "outDir": "dist",
-    },
-    "ts-node": {"esm": true},
-    "include": ["./**/*.ts", "index.ts", "controllers/blog.ts"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "strictNullChecks": true,
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
+    "moduleDetection": "auto",
+    "types": ["node", "jest"],
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "ts-node": { "esm": true },
+  "include": ["./**/*.ts", "index.ts", "controllers/blog.ts"],
+  "exclude": ["node_modules"]
 }

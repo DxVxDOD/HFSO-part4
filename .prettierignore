@@ -1,0 +1,4 @@
+# deployment build
+dist
+
+node_modules

@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blog
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGVlNGE1MDMyYjUyNjRlYTFjNDBjOWMiLCJpYXQiOjE2OTMzMzk1Mjd9.VyqVuiM-1pjOL-wTWQ5oczurx6_N0B-So5Pxy9lA08s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGY1ZjAxMGQ5NmZiZmFjOTYxMTE4ZTMiLCJpYXQiOjE2OTM4NTA4MzB9.oxJ9JJit7t84oIP_UNH0LN6wmOKHFhOKsU1dvkIjNfA
 
 {
 "title": "MIDDELWARE USER EXTRACTION 1001",
@@ -20,6 +20,23 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3003/api/blog/64c255b0c620cfeb650a2fff
+POST http://localhost:3003/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NGVlNGE1MDMyYjUyNjRlYTFjNDBjOWMiLCJpYXQiOjE2OTMzMzg0Mjh9.ovR68lOQ2-C9qcYlLatAVp1l6YFS_ciuI-OcKY-jIN8
+
+{
+    "username": "David",
+    "password": "987456123"
+}
+
+###
+
+POST http://localhost:3003/api/comments
+Content-Type: application/json
+
+{
+    "content": "Testing endPoint"
+}
+
+###
+
+GET http://localhost:3003/api/comments

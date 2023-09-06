@@ -3,16 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import config from "../utils/config.js";
 
-type IBlog = {
-  title: string;
-  author: string;
-  url: string;
-  likes: number;
-  user: {
-    type: mongoose.Schema.Types.ObjectId;
-    ref: "User";
-  };
-} & mongoose.Document;
+type TComment = {
+  content: string;
+};
 
 dotenv.config();
 
@@ -25,21 +18,14 @@ mongoose
     console.log("connected to MongoDB");
   })
   .catch((err) => {
-    console.log("error connecting to MongoDB:", err.message);
+    console.log("error connecting to MongoDB", err.message);
   });
 
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+const commentSchema = new mongoose.Schema({
+  content: String,
 });
 
-blogSchema.set("toJSON", {
+commentSchema.set("toJSON", {
   transform(document, returnedObject) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     returnedObject.id = returnedObject._id.toString();
@@ -48,6 +34,6 @@ blogSchema.set("toJSON", {
   },
 });
 
-const Blog = mongoose.model<IBlog>("Blog", blogSchema);
+const Comment = mongoose.model<TComment>("Comment", commentSchema);
 
-export default Blog;
+export default Comment;
